@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+import "google/api/annotations.proto";
+import "google/protobuf/wrappers.proto";
+
+message User {
+	string id = 1;
+	string name = 2;
+	string password = 3;
+}
+
+message Device {
+	enum Type {
+		UNKNOWN = 0;
+		IOS = 1;
+		ANDROID = 2;
+	}
+
+	string id = 1;
+	Type type = 2;
+	string push_token = 3;
+}
+
+message Room {
+	string id = 1;
+	string name = 2;
+}
+
+message Sensor {
+	string id = 1;
+	string name = 2;
+	int64 last_measurement = 3;
+	bool status = 4;
+	google.protobuf.StringValue room_id = 5;
+}
+
+message Measurement {
+	string id = 1;
+	int64 timestamp = 2;
+	int64 value = 3;
+}
+
+service SensorApiService {
+	rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse) {
+		option (google.api.http) = {
+			post: "/v1/user/register",
+			body: "*"
+		};
+	}
+
+	rpc RegisterSensor(RegisterSensorRequest) returns (RegisterSensorResponse) {
+		option (google.api.http) = {
+			post: "/v1/user/{user_id}/sensor/register",
+			body: "*"
+		};
+	}
+
+	rpc ListSensor(ListSensorRequest) returns (ListSensorResponse) {
+		option (google.api.http) = {
+			get: "/v1/user/{user_id}/sensor"
+		};
+	}
+
+	rpc ShowSensor(ShowSensorRequest) returns (ShowSensorResponse) {
+		option (google.api.http) = {
+			get: "/v1/user/{user_id}/sensor/{sensor_id}"
+		};
+	}
+
+	rpc DeleteSensor(DeleteSensorRequest) returns (DeleteSensorResponse) {
+		option (google.api.http) = {
+			delete: "/v1/user/{user_id}/sensor/{sensor_id}"
+		};
+	}
+
+	rpc ListSensorMeasurement(ListSensorMeasurementRequest) returns (ListSensorMeasurementResponse) {
+		option (google.api.http) = {
+			get: "/v1/user/{user_id}/sensor/{sensor_id}/measurement"
+		};
+	}
+
+	rpc UpdateSensorMeasurement(UpdateSensorMeasurementRequest) returns (UpdateSensorMeasurementResponse) {
+		option (google.api.http) = {
+			post: "/v1/user/{user_id}/sensor/{sensor_id}/measurement",
+			body: "*"
+		};
+	}
+}
+
+message RegisterUserRequest {
+	// VOID
+}
+
+message RegisterUserResponse {
+	// VOID
+}
+
+message RegisterSensorRequest {
+	string user_id = 1;
+	string sensor_id = 2;
+	google.protobuf.StringValue name = 3;
+	google.protobuf.StringValue room_id = 4;
+}
+
+message RegisterSensorResponse {
+	// VOID
+}
+
+message ListSensorRequest {
+	string user_id = 1;
+}
+
+message ListSensorResponse {
+	repeated Sensor sensors = 1;
+	repeated Room rooms = 2;
+}
+
+message ShowSensorRequest {
+	string user_id = 1;
+	string sensor_id = 2;
+}
+
+message ShowSensorResponse {
+	Sensor sensor = 1;
+	repeated Measurement measurements = 2;
+}
+
+message DeleteSensorRequest {
+	string user_id = 1;
+	string sensor_id = 2;
+}
+
+message DeleteSensorResponse {
+	Sensor sensor = 1;
+	repeated Measurement measurements = 2;
+}
+
+message ListSensorMeasurementRequest {
+	string user_id = 1;
+	string sensor_id = 2;
+}
+
+message ListSensorMeasurementResponse {
+	repeated Measurement measurements = 1;
+}
+
+message UpdateSensorMeasurementRequest {
+	string user_id = 1;
+	string sensor_id = 2;
+
+	repeated Measurement measurements = 3;
+}
+
+message UpdateSensorMeasurementResponse {
+	// VOID
+}
+
