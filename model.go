@@ -25,7 +25,7 @@ var (
 )
 
 func dbError(key string, envVar string) error {
-	return errors.Errorf("Database %s cannot be emtpy. Please set %s via %s environment variable", key, key, envVar)
+	return errors.Errorf("Database %s cannot be empty. Please set %s via %s environment variable", key, key, envVar)
 }
 
 func newDatabase() (*gorm.DB, error) {
