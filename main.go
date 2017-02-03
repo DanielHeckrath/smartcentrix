@@ -18,14 +18,23 @@ import (
 var errSystemInterupt = errors.New("Received system interupt")
 
 func main() {
-	ctx := context.Background()
-	ctx, cancel := context.WithCancel(ctx)
-	defer cancel()
+	// setup database connection
+	db, err := newDatabase()
+	if err != nil {
+		log.Println("Unable to create database connection")
+		log.Printf("%s\n", err)
+		return
+	}
+	defer db.Close()
 
 	errc := make(chan error)
 
 	// Transport: http
 	go func() {
+		ctx := context.Background()
+		ctx, cancel := context.WithCancel(ctx)
+		defer cancel()
+
 		mux := runtime.NewServeMux()
 		opts := []grpc.DialOption{grpc.WithInsecure()}
 		err := smartcentrix.RegisterSensorApiServiceHandlerFromEndpoint(ctx, mux, "localhost:8081", opts)
@@ -49,7 +58,7 @@ func main() {
 
 	go signals.Handle(quit(errc))
 
-	err := <-errc
+	err = <-errc
 
 	if err != errSystemInterupt && os.Getenv("ENVIRONMENT") != "staging" {
 		log.Println("Api service is terminating because of an unexpected error")
