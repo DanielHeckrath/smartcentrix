@@ -9,6 +9,10 @@ import (
 )
 
 func (s *sensorAPI) RegisterRoom(ctx context.Context, req *smartcentrix.RegisterRoomRequest) (*smartcentrix.RegisterRoomResponse, error) {
+	if req.Name == "" {
+		return nil, grpc.Errorf(codes.InvalidArgument, "Room name cannot be empty")
+	}
+
 	// validate input parameter
 	err := s.validateUserOwnership(ctx, req.UserId, "Cannot register room for different user")
 
