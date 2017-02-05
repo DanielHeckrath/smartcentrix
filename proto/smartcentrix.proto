@@ -30,7 +30,8 @@ message Sensor {
 	string name = 2;
 	int64 last_measurement = 3;
 	bool status = 4;
-	google.protobuf.StringValue room_id = 5;
+	bool in_use = 5;
+	string room_id = 6;
 }
 
 message Measurement {
@@ -124,6 +125,32 @@ service SensorApiService {
 			body: "*"
 		};
 	}
+
+	// RegisterRoom creates a new named room for a user
+	//
+	// The method returns the newly created room
+	rpc RegisterRoom(RegisterRoomRequest) returns (RegisterRoomResponse) {
+		option (google.api.http) = {
+			post: "/v1/user/{user_id}/room/register",
+			body: "*"
+		};
+	}
+	
+	// UpdateRoom updates a rooms name
+	//
+	// The method returns the updated room
+	rpc UpdateRoom(UpdateRoomRequest) returns (UpdateRoomResponse) {
+		option (google.api.http) = {
+			post: "/v1/user/{user_id}/room/{room_id}",
+			body: "*"
+		};
+	}
+
+	rpc DeleteRoom(DeleteRoomRequest) returns (DeleteRoomResponse) {
+		option (google.api.http) = {
+			delete: "/v1/user/{user_id}/room/{room_id}"
+		};
+	}
 }
 
 message RegisterUserRequest {
@@ -153,6 +180,7 @@ message UpdateSensorRequest {
 	google.protobuf.StringValue name = 3;
 	google.protobuf.StringValue room_id = 4;
 	google.protobuf.BoolValue status = 5;
+	google.protobuf.BoolValue in_use = 6;
 }
 
 message UpdateSensorResponse {
@@ -195,7 +223,6 @@ message DeleteSensorRequest {
 
 message DeleteSensorResponse {
 	Sensor sensor = 1;
-	repeated Measurement measurements = 2;
 }
 
 message ListSensorMeasurementRequest {
@@ -216,5 +243,33 @@ message UpdateSensorMeasurementRequest {
 
 message UpdateSensorMeasurementResponse {
 	// VOID
+}
+
+message RegisterRoomRequest {
+	string user_id = 1;
+	string name = 2;
+}
+
+message RegisterRoomResponse {
+	Room room = 1;
+}
+
+message UpdateRoomRequest {
+	string user_id = 1;
+	string room_id = 2;
+	google.protobuf.StringValue name = 3;
+}
+
+message UpdateRoomResponse {
+	Room room = 1;
+}
+
+message DeleteRoomRequest {
+	string user_id = 1;
+	string room_id = 2;
+}
+
+message DeleteRoomResponse {
+	Room room = 1;
 }
 

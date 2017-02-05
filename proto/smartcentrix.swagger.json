@@ -71,6 +71,108 @@
         ]
       }
     },
+    "/v1/user/{user_id}/room/register": {
+      "post": {
+        "summary": "RegisterRoom creates a new named room for a user",
+        "description": "The method returns the newly created room",
+        "operationId": "RegisterRoom",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/RegisterRoomResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterRoomRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SensorApiService"
+        ]
+      }
+    },
+    "/v1/user/{user_id}/room/{room_id}": {
+      "delete": {
+        "operationId": "DeleteRoom",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DeleteRoomResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "room_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SensorApiService"
+        ]
+      },
+      "post": {
+        "summary": "UpdateRoom updates a rooms name",
+        "description": "The method returns the updated room",
+        "operationId": "UpdateRoom",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UpdateRoomResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "room_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateRoomRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SensorApiService"
+        ]
+      }
+    },
     "/v1/user/{user_id}/sensor": {
       "get": {
         "operationId": "ListSensor",
@@ -331,6 +433,25 @@
     }
   },
   "definitions": {
+    "DeleteRoomRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "room_id": {
+          "type": "string"
+        }
+      }
+    },
+    "DeleteRoomResponse": {
+      "type": "object",
+      "properties": {
+        "room": {
+          "$ref": "#/definitions/Room"
+        }
+      }
+    },
     "DeleteSensorRequest": {
       "type": "object",
       "properties": {
@@ -347,12 +468,6 @@
       "properties": {
         "sensor": {
           "$ref": "#/definitions/Sensor"
-        },
-        "measurements": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Measurement"
-          }
         }
       }
     },
@@ -416,6 +531,25 @@
         "value": {
           "type": "string",
           "format": "int64"
+        }
+      }
+    },
+    "RegisterRoomRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "RegisterRoomResponse": {
+      "type": "object",
+      "properties": {
+        "room": {
+          "$ref": "#/definitions/Room"
         }
       }
     },
@@ -494,8 +628,12 @@
           "type": "boolean",
           "format": "boolean"
         },
+        "in_use": {
+          "type": "boolean",
+          "format": "boolean"
+        },
         "room_id": {
-          "$ref": "#/definitions/protobufStringValue"
+          "type": "string"
         }
       }
     },
@@ -547,6 +685,28 @@
         }
       }
     },
+    "UpdateRoomRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "room_id": {
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/definitions/protobufStringValue"
+        }
+      }
+    },
+    "UpdateRoomResponse": {
+      "type": "object",
+      "properties": {
+        "room": {
+          "$ref": "#/definitions/Room"
+        }
+      }
+    },
     "UpdateSensorMeasurementRequest": {
       "type": "object",
       "properties": {
@@ -583,6 +743,9 @@
           "$ref": "#/definitions/protobufStringValue"
         },
         "status": {
+          "$ref": "#/definitions/protobufBoolValue"
+        },
+        "in_use": {
           "$ref": "#/definitions/protobufBoolValue"
         }
       }

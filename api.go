@@ -25,6 +25,7 @@ var (
 type sensorAPI struct {
 	userRepo   UserRepository
 	sensorRepo SensorRepository
+	roomRepo   RoomRepository
 }
 
 func (s *sensorAPI) ListSensorMeasurement(context.Context, *smartcentrix.ListSensorMeasurementRequest) (*smartcentrix.ListSensorMeasurementResponse, error) {
@@ -72,4 +73,25 @@ func (s *sensorAPI) authorizeUser(ctx context.Context) (*User, error) {
 	}
 
 	return user, nil
+}
+
+func (s *sensorAPI) validateUserOwnership(ctx context.Context, userID, msg string) error {
+	// validate input parameter
+	if userID == "" {
+		return grpc.Errorf(codes.InvalidArgument, "UserID cannot be empty")
+	}
+
+	// authorize user
+	user, err := s.authorizeUser(ctx)
+
+	if err != nil {
+		return err
+	}
+
+	// check if request sender is target user
+	if user.ID != userID {
+		return grpc.Errorf(codes.PermissionDenied, "You are not allowed to access this resource: %s", msg)
+	}
+
+	return nil
 }

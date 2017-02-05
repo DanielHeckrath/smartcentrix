@@ -6,7 +6,6 @@ import (
 	"time"
 
 	smartcentrix "github.com/DanielHeckrath/smartcentrix/proto"
-	"github.com/golang/protobuf/ptypes/wrappers"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/juju/errors"
@@ -129,12 +128,32 @@ type Room struct {
 	UserID string `gorm:"index"`
 }
 
+func (r Room) proto() *smartcentrix.Room {
+	room := smartcentrix.Room{
+		Id:   r.ID,
+		Name: r.Name,
+	}
+
+	return &room
+}
+
+func convertRooms(r []*Room) []*smartcentrix.Room {
+	rooms := make([]*smartcentrix.Room, 0, len(r))
+
+	for _, room := range r {
+		rooms = append(rooms, room.proto())
+	}
+
+	return rooms
+}
+
 type Sensor struct {
 	BaseModel
 
 	Name            string
 	LastMeasurement int64
 	Status          bool
+	InUse           bool
 	Measurements    []Measurement `gorm:"ForeignKey:SensorID"`
 
 	UserID string `gorm:"index"`
@@ -151,12 +170,20 @@ func (s Sensor) proto() *smartcentrix.Sensor {
 	}
 
 	if s.RoomID != nil {
-		sensor.RoomId = &wrappers.StringValue{
-			Value: *s.RoomID,
-		}
+		sensor.RoomId = *s.RoomID
 	}
 
 	return &sensor
+}
+
+func convertSensors(s []*Sensor) []*smartcentrix.Sensor {
+	sensors := make([]*smartcentrix.Sensor, 0, len(s))
+
+	for _, sensor := range s {
+		sensors = append(sensors, sensor.proto())
+	}
+
+	return sensors
 }
 
 type Measurement struct {

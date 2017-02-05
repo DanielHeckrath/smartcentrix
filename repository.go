@@ -21,11 +21,13 @@ type UserRepository interface {
 type RoomRepository interface {
 	GetRoom(ctx context.Context, roomID string) (*Room, error)
 	SaveRoom(ctx context.Context, room *Room) (*Room, error)
+	ListRooms(ctx context.Context, userID string) ([]*Room, error)
 	DeleteRoom(ctx context.Context, room *Room) error
 }
 
 type SensorRepository interface {
 	GetSensor(ctx context.Context, sensorID string) (*Sensor, error)
 	SaveSensor(ctx context.Context, sensor *Sensor) (*Sensor, error)
+	ListSensors(ctx context.Context, userID string) ([]*Sensor, error)
 	DeleteSensor(ctx context.Context, sensor *Sensor) error
 }

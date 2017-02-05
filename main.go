@@ -56,6 +56,7 @@ func main() {
 		smartcentrix.RegisterSensorApiServiceServer(s, &sensorAPI{
 			userRepo:   &sqlUserRepository{db},
 			sensorRepo: &sqlSensorRepository{db},
+			roomRepo:   &sqlRoomRepository{db},
 		})
 		errc <- s.Serve(ln)
 	}()
