@@ -72,9 +72,10 @@ func main() {
 			grpc.UnaryInterceptor(grpc_prometheus.UnaryServerInterceptor),
 		)
 		smartcentrix.RegisterSensorApiServiceServer(s, &sensorAPI{
-			userRepo:   &sqlUserRepository{db},
-			sensorRepo: &sqlSensorRepository{db},
-			roomRepo:   &sqlRoomRepository{db},
+			userRepo:        &sqlUserRepository{db},
+			sensorRepo:      &sqlSensorRepository{db},
+			roomRepo:        &sqlRoomRepository{db},
+			measurementRepo: &sqlMeasurementRepository{db},
 		})
 
 		log.Println("Serving transport gRPC on :8081")
