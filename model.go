@@ -5,6 +5,8 @@ import (
 	"os"
 	"time"
 
+	smartcentrix "github.com/DanielHeckrath/smartcentrix/proto"
+	"github.com/golang/protobuf/ptypes/wrappers"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/postgres"
 	"github.com/juju/errors"
@@ -136,7 +138,25 @@ type Sensor struct {
 	Measurements    []Measurement `gorm:"ForeignKey:SensorID"`
 
 	UserID string `gorm:"index"`
-	RoomID string
+	// RoomID must be a pointer for optional foreign key constraints
+	RoomID *string
+}
+
+func (s Sensor) proto() *smartcentrix.Sensor {
+	sensor := smartcentrix.Sensor{
+		Id:              s.ID,
+		Name:            s.Name,
+		LastMeasurement: s.LastMeasurement,
+		Status:          s.Status,
+	}
+
+	if s.RoomID != nil {
+		sensor.RoomId = &wrappers.StringValue{
+			Value: *s.RoomID,
+		}
+	}
+
+	return &sensor
 }
 
 type Measurement struct {
