@@ -3,7 +3,6 @@ package main
 import (
 	"github.com/DanielHeckrath/smartcentrix/proto"
 
-	"github.com/satori/go.uuid"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -19,7 +18,6 @@ func (s *sensorAPI) RegisterRoom(ctx context.Context, req *smartcentrix.Register
 
 	// create new room struct
 	room := &Room{}
-	room.ID = uuid.NewV4().String()
 	room.UserID = req.UserId
 	room.Name = req.Name
 

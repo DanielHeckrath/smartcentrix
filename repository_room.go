@@ -2,6 +2,7 @@ package main
 
 import (
 	"github.com/jinzhu/gorm"
+	uuid "github.com/satori/go.uuid"
 	"golang.org/x/net/context"
 )
 
@@ -41,6 +42,7 @@ func (r *sqlRoomRepository) SaveRoom(ctx context.Context, room *Room) (*Room, er
 	var q *gorm.DB
 
 	if r.db.NewRecord(room) {
+		room.ID = uuid.NewV4().String()
 		q = r.db.Create(room)
 	} else {
 		q = r.db.Save(room)

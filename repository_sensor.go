@@ -38,13 +38,7 @@ func (r *sqlSensorRepository) ListSensors(ctx context.Context, userID string) ([
 }
 
 func (r *sqlSensorRepository) SaveSensor(ctx context.Context, sensor *Sensor) (*Sensor, error) {
-	var q *gorm.DB
-
-	if r.db.NewRecord(sensor) {
-		q = r.db.Create(sensor)
-	} else {
-		q = r.db.Save(sensor)
-	}
+	q := r.db.Set("gorm:insert_option", "ON DUPLICATE KEY UPDATE name=VALUES(name), room_id=VALUES(room_id)").Create(sensor)
 
 	if q.Error != nil {
 		return nil, q.Error

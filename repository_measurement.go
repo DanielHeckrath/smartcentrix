@@ -24,13 +24,7 @@ func (r *sqlMeasurementRepository) ListMeasurements(ctx context.Context, sensorI
 }
 
 func (r *sqlMeasurementRepository) SaveMeasurement(ctx context.Context, measurement *Measurement) (*Measurement, error) {
-	var q *gorm.DB
-
-	if r.db.NewRecord(measurement) {
-		q = r.db.Create(measurement)
-	} else {
-		q = r.db.Save(measurement)
-	}
+	q := r.db.Create(measurement)
 
 	if q.Error != nil {
 		return nil, q.Error
