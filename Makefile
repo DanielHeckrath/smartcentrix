@@ -14,3 +14,10 @@ proto: $(SOURCE)
 	  -I /usr/local/include \
 	  --grpc-gateway_out=logtostderr=true:. \
 	  ./proto/*.proto
+
+	protoc -I . \
+	  -I $(GOPATH)/src \
+	  -I $(GOPATH)/src/github.com/grpc-ecosystem/grpc-gateway/third_party/googleapis \
+	  -I /usr/local/include \
+	  --swagger_out=logtostderr=true:. \
+	  ./proto/*.proto

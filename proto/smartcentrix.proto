@@ -39,27 +39,47 @@ message Measurement {
 	int64 value = 3;
 }
 
+// SensorApiService is a service that handles user and sensor registration in addition to sensor measurments
+//
+// The following functions require the presence of an authorization header in the following form
+//
+// Authorization: Bearer Token
+//
+// where token is the access token returned by RegisterUser and LoginUser
 service SensorApiService {
+	// RegisterUser registers a new user if no user with the same name exists
+	//
+	// The method returns the new user and an access token for future requests
 	rpc RegisterUser(RegisterUserRequest) returns (RegisterUserResponse) {
 		option (google.api.http) = {
 			post: "/v1/user/register",
 			body: "*"
 		};
 	}
+
+	// LoginUser tries to validate a username and password combination
+	//
+	// The method returns the existing user and an access token for future requests
 	rpc LoginUser(RegisterUserRequest) returns (RegisterUserResponse) {
 		option (google.api.http) = {
 			post: "/v1/user/login",
 			body: "*"
 		};
 	}
-
+	
+	// RegisterSensor links a sensor a user if it's not yet linked to another user
+	//
+	// The method returns the newly registered sensor
 	rpc RegisterSensor(RegisterSensorRequest) returns (RegisterSensorResponse) {
 		option (google.api.http) = {
 			post: "/v1/user/{user_id}/sensor/register",
 			body: "*"
 		};
 	}
-
+	
+	// UpdateSensor updates a sensors name, status and assosiated room
+	//
+	// The method returns the newly registered sensor
 	rpc UpdateSensor(UpdateSensorRequest) returns (UpdateSensorResponse) {
 		option (google.api.http) = {
 			post: "/v1/user/{user_id}/sensor/{sensor_id}",

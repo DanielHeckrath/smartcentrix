@@ -713,9 +713,21 @@ const _ = grpc.SupportPackageIsVersion4
 // Client API for SensorApiService service
 
 type SensorApiServiceClient interface {
+	// RegisterUser registers a new user if no user with the same name exists
+	//
+	// The method returns the new user and an access token for future requests
 	RegisterUser(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error)
+	// LoginUser tries to validate a username and password combination
+	//
+	// The method returns the existing user and an access token for future requests
 	LoginUser(ctx context.Context, in *RegisterUserRequest, opts ...grpc.CallOption) (*RegisterUserResponse, error)
+	// RegisterSensor links a sensor a user if it's not yet linked to another user
+	//
+	// The method returns the newly registered sensor
 	RegisterSensor(ctx context.Context, in *RegisterSensorRequest, opts ...grpc.CallOption) (*RegisterSensorResponse, error)
+	// UpdateSensor updates a sensors name, status and assosiated room
+	//
+	// The method returns the newly registered sensor
 	UpdateSensor(ctx context.Context, in *UpdateSensorRequest, opts ...grpc.CallOption) (*UpdateSensorResponse, error)
 	ToggleSensor(ctx context.Context, in *ToggleSensorRequest, opts ...grpc.CallOption) (*ToggleSensorResponse, error)
 	ListSensor(ctx context.Context, in *ListSensorRequest, opts ...grpc.CallOption) (*ListSensorResponse, error)
@@ -826,9 +838,21 @@ func (c *sensorApiServiceClient) UpdateSensorMeasurement(ctx context.Context, in
 // Server API for SensorApiService service
 
 type SensorApiServiceServer interface {
+	// RegisterUser registers a new user if no user with the same name exists
+	//
+	// The method returns the new user and an access token for future requests
 	RegisterUser(context.Context, *RegisterUserRequest) (*RegisterUserResponse, error)
+	// LoginUser tries to validate a username and password combination
+	//
+	// The method returns the existing user and an access token for future requests
 	LoginUser(context.Context, *RegisterUserRequest) (*RegisterUserResponse, error)
+	// RegisterSensor links a sensor a user if it's not yet linked to another user
+	//
+	// The method returns the newly registered sensor
 	RegisterSensor(context.Context, *RegisterSensorRequest) (*RegisterSensorResponse, error)
+	// UpdateSensor updates a sensors name, status and assosiated room
+	//
+	// The method returns the newly registered sensor
 	UpdateSensor(context.Context, *UpdateSensorRequest) (*UpdateSensorResponse, error)
 	ToggleSensor(context.Context, *ToggleSensorRequest) (*ToggleSensorResponse, error)
 	ListSensor(context.Context, *ListSensorRequest) (*ListSensorResponse, error)

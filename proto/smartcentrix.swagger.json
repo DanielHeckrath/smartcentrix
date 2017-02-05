@@ -1,0 +1,631 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "proto/smartcentrix.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/user/login": {
+      "post": {
+        "summary": "LoginUser tries to validate a username and password combination",
+        "description": "The method returns the existing user and an access token for future requests",
+        "operationId": "LoginUser",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/RegisterUserResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SensorApiService"
+        ]
+      }
+    },
+    "/v1/user/register": {
+      "post": {
+        "summary": "RegisterUser registers a new user if no user with the same name exists",
+        "description": "The method returns the new user and an access token for future requests",
+        "operationId": "RegisterUser",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/RegisterUserResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterUserRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SensorApiService"
+        ]
+      }
+    },
+    "/v1/user/{user_id}/sensor": {
+      "get": {
+        "operationId": "ListSensor",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ListSensorResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SensorApiService"
+        ]
+      }
+    },
+    "/v1/user/{user_id}/sensor/register": {
+      "post": {
+        "summary": "RegisterSensor links a sensor a user if it's not yet linked to another user",
+        "description": "The method returns the newly registered sensor",
+        "operationId": "RegisterSensor",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/RegisterSensorResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/RegisterSensorRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SensorApiService"
+        ]
+      }
+    },
+    "/v1/user/{user_id}/sensor/{sensor_id}": {
+      "get": {
+        "operationId": "ShowSensor",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ShowSensorResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sensor_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SensorApiService"
+        ]
+      },
+      "delete": {
+        "operationId": "DeleteSensor",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/DeleteSensorResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sensor_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SensorApiService"
+        ]
+      },
+      "post": {
+        "summary": "UpdateSensor updates a sensors name, status and assosiated room",
+        "description": "The method returns the newly registered sensor",
+        "operationId": "UpdateSensor",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UpdateSensorResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sensor_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateSensorRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SensorApiService"
+        ]
+      }
+    },
+    "/v1/user/{user_id}/sensor/{sensor_id}/measurement": {
+      "get": {
+        "operationId": "ListSensorMeasurement",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ListSensorMeasurementResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sensor_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "SensorApiService"
+        ]
+      },
+      "post": {
+        "operationId": "UpdateSensorMeasurement",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/UpdateSensorMeasurementResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sensor_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/UpdateSensorMeasurementRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SensorApiService"
+        ]
+      }
+    },
+    "/v1/user/{user_id}/sensor/{sensor_id}/toggle": {
+      "post": {
+        "operationId": "ToggleSensor",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/ToggleSensorResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "user_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "sensor_id",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ToggleSensorRequest"
+            }
+          }
+        ],
+        "tags": [
+          "SensorApiService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "DeleteSensorRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "sensor_id": {
+          "type": "string"
+        }
+      }
+    },
+    "DeleteSensorResponse": {
+      "type": "object",
+      "properties": {
+        "sensor": {
+          "$ref": "#/definitions/Sensor"
+        },
+        "measurements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Measurement"
+          }
+        }
+      }
+    },
+    "ListSensorMeasurementRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "sensor_id": {
+          "type": "string"
+        }
+      }
+    },
+    "ListSensorMeasurementResponse": {
+      "type": "object",
+      "properties": {
+        "measurements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Measurement"
+          }
+        }
+      }
+    },
+    "ListSensorRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        }
+      }
+    },
+    "ListSensorResponse": {
+      "type": "object",
+      "properties": {
+        "sensors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Sensor"
+          }
+        },
+        "rooms": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Room"
+          }
+        }
+      }
+    },
+    "Measurement": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "int64"
+        },
+        "value": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "RegisterSensorRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "sensor_id": {
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/definitions/protobufStringValue"
+        },
+        "room_id": {
+          "$ref": "#/definitions/protobufStringValue"
+        }
+      }
+    },
+    "RegisterSensorResponse": {
+      "type": "object",
+      "properties": {
+        "sensor": {
+          "$ref": "#/definitions/Sensor"
+        }
+      }
+    },
+    "RegisterUserRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "RegisterUserResponse": {
+      "type": "object",
+      "properties": {
+        "user": {
+          "$ref": "#/definitions/User"
+        },
+        "token": {
+          "type": "string"
+        }
+      }
+    },
+    "Room": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "Sensor": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "last_measurement": {
+          "type": "string",
+          "format": "int64"
+        },
+        "status": {
+          "type": "boolean",
+          "format": "boolean"
+        },
+        "room_id": {
+          "$ref": "#/definitions/protobufStringValue"
+        }
+      }
+    },
+    "ShowSensorRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "sensor_id": {
+          "type": "string"
+        }
+      }
+    },
+    "ShowSensorResponse": {
+      "type": "object",
+      "properties": {
+        "sensor": {
+          "$ref": "#/definitions/Sensor"
+        },
+        "measurements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Measurement"
+          }
+        }
+      }
+    },
+    "ToggleSensorRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "sensor_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "boolean",
+          "format": "boolean"
+        }
+      }
+    },
+    "ToggleSensorResponse": {
+      "type": "object",
+      "properties": {
+        "sensor": {
+          "$ref": "#/definitions/Sensor"
+        }
+      }
+    },
+    "UpdateSensorMeasurementRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "sensor_id": {
+          "type": "string"
+        },
+        "measurements": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Measurement"
+          }
+        }
+      }
+    },
+    "UpdateSensorMeasurementResponse": {
+      "type": "object"
+    },
+    "UpdateSensorRequest": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "sensor_id": {
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/definitions/protobufStringValue"
+        },
+        "room_id": {
+          "$ref": "#/definitions/protobufStringValue"
+        },
+        "status": {
+          "$ref": "#/definitions/protobufBoolValue"
+        }
+      }
+    },
+    "UpdateSensorResponse": {
+      "type": "object",
+      "properties": {
+        "sensor": {
+          "$ref": "#/definitions/Sensor"
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "protobufBoolValue": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "boolean",
+          "format": "boolean",
+          "description": "The bool value."
+        }
+      },
+      "description": "Wrapper message for `bool`.\n\nThe JSON representation for `BoolValue` is JSON `true` and `false`."
+    },
+    "protobufStringValue": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "The string value."
+        }
+      },
+      "description": "Wrapper message for `string`.\n\nThe JSON representation for `StringValue` is JSON string."
+    }
+  }
+}
