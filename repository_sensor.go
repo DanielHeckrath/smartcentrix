@@ -48,7 +48,7 @@ func (r *sqlSensorRepository) CreateSensor(ctx context.Context, sensor *Sensor) 
 }
 
 func (r *sqlSensorRepository) UpdateSensor(ctx context.Context, sensor *Sensor) (*Sensor, error) {
-	q := r.db.Update(sensor)
+	q := r.db.Save(sensor)
 
 	if q.Error != nil {
 		return nil, q.Error
