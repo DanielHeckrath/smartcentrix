@@ -6,7 +6,6 @@ import "google/protobuf/wrappers.proto";
 message User {
 	string id = 1;
 	string name = 2;
-	string password = 3;
 }
 
 message Device {
@@ -47,10 +46,30 @@ service SensorApiService {
 			body: "*"
 		};
 	}
+	rpc LoginUser(RegisterUserRequest) returns (RegisterUserResponse) {
+		option (google.api.http) = {
+			post: "/v1/user/login",
+			body: "*"
+		};
+	}
 
 	rpc RegisterSensor(RegisterSensorRequest) returns (RegisterSensorResponse) {
 		option (google.api.http) = {
 			post: "/v1/user/{user_id}/sensor/register",
+			body: "*"
+		};
+	}
+
+	rpc UpdateSensor(UpdateSensorRequest) returns (UpdateSensorResponse) {
+		option (google.api.http) = {
+			post: "/v1/user/{user_id}/sensor/{sensor_id}",
+			body: "*"
+		};
+	}
+
+	rpc ToggleSensor(ToggleSensorRequest) returns (ToggleSensorResponse) {
+		option (google.api.http) = {
+			post: "/v1/user/{user_id}/sensor/{sensor_id}/toggle",
 			body: "*"
 		};
 	}
@@ -88,11 +107,13 @@ service SensorApiService {
 }
 
 message RegisterUserRequest {
-	// VOID
+	string name = 1;
+	string password = 2;
 }
 
 message RegisterUserResponse {
-	// VOID
+	User user = 1;
+	string token = 2;
 }
 
 message RegisterSensorRequest {
@@ -103,7 +124,29 @@ message RegisterSensorRequest {
 }
 
 message RegisterSensorResponse {
-	// VOID
+	Sensor sensor = 1;
+}
+
+message UpdateSensorRequest {
+	string user_id = 1;
+	string sensor_id = 2;
+	google.protobuf.StringValue name = 3;
+	google.protobuf.StringValue room_id = 4;
+	google.protobuf.BoolValue status = 5;
+}
+
+message UpdateSensorResponse {
+	Sensor sensor = 1;
+}
+
+message ToggleSensorRequest {
+	string user_id = 1;
+	string sensor_id = 2;
+	bool status = 3;
+}
+
+message ToggleSensorResponse {
+	Sensor sensor = 1;
 }
 
 message ListSensorRequest {
