@@ -1,5 +1,20 @@
 SOURCE := $(shell find . -name '*.proto')
 
+PROJECT=api-service
+ORGANIZATION=smartcentrix
+DOCKER_REPO = $(ORGANIZATION)/$(PROJECT)
+VERSION_TAG = 0.0.1
+
+GO_SOURCE := $(shell find . -name '*.go')
+
+build: $(GO_SOURCE)
+	docker build -t $(DOCKER_REPO):$(VERSION_TAG) .
+
+push: build
+	docker push $(DOCKER_REPO):$(VERSION_TAG)
+	docker tag $(DOCKER_REPO):$(VERSION_TAG) $(DOCKER_REPO):latest
+	docker push $(DOCKER_REPO):latest
+
 proto: $(SOURCE)
 	protoc -I . \
 	  -I $(GOPATH)/src \
