@@ -7,15 +7,15 @@ import (
 
 	smartcentrix "github.com/DanielHeckrath/smartcentrix/proto"
 	"github.com/jinzhu/gorm"
-	_ "github.com/jinzhu/gorm/dialects/postgres"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"github.com/juju/errors"
 )
 
 var (
-	envDatabaseHost     = "POSTGRES_HOST"
-	envDatabaseName     = "POSTGRES_DATABASE"
-	envDatabaseUser     = "POSTGRES_USER"
-	envDatabasePassword = "POSTGRES_PASSWORD"
+	envDatabaseHost     = "MYSQL_HOST"
+	envDatabaseName     = "MYSQL_DATABASE"
+	envDatabaseUser     = "MYSQL_USER"
+	envDatabasePassword = "MYSQL_PASSWORD"
 )
 
 var (
@@ -58,8 +58,8 @@ func newDatabase() (*gorm.DB, error) {
 		return nil, errNameEmpty
 	}
 
-	opts := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", host, username, database, password)
-	db, err := gorm.Open("postgres", opts)
+	opts := fmt.Sprintf("%[1]s:%[2]s@tcp(%[3]s)/%[4]s?charset=utf8&parseTime=True&loc=Local", username, password, host, database)
+	db, err := gorm.Open("mysql", opts)
 
 	if err != nil {
 		return nil, err
