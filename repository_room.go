@@ -38,7 +38,13 @@ func (r *sqlRoomRepository) ListRooms(ctx context.Context, userID string) ([]*Ro
 }
 
 func (r *sqlRoomRepository) SaveRoom(ctx context.Context, room *Room) (*Room, error) {
-	q := r.db.Save(room)
+	var q *gorm.DB
+
+	if r.db.NewRecord(room) {
+		q = r.db.Create(room)
+	} else {
+		q = r.db.Save(room)
+	}
 
 	if q.Error != nil {
 		return nil, q.Error

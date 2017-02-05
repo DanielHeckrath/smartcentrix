@@ -43,12 +43,12 @@ func main() {
 			errc <- err
 		}
 
-		errc <- http.ListenAndServe("localhost:8080", mux)
+		errc <- http.ListenAndServe(":8080", mux)
 	}()
 
 	// Transport: grpc
 	go func() {
-		ln, err := net.Listen("tcp", "localhost:8081")
+		ln, err := net.Listen("tcp", ":8081")
 		if err != nil {
 			errc <- err
 		}

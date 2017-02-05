@@ -16,7 +16,7 @@ import:
 - package: github.com/jinzhu/gorm
   version: ~1.0.0
   subpackages:
-  - dialects/postgres
+  - dialects/mysql
 - package: github.com/juju/errors
 - package: github.com/satori/go.uuid
   version: ~1.1.0

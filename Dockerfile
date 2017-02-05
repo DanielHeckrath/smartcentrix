@@ -1,12 +1,13 @@
-FROM golang:1.7.4-alpine
+FROM progrium/busybox
 
-ENV  GOPATH /go
-ENV APPPATH $GOPATH/src/github.com/DanielHeckrath/smartcentrix
-COPY . $APPPATH
-RUN cd $APPPATH && go build -o /smartcentrix-api && rm -rf $GOPATH
+RUN opkg-install ca-certificates
+RUN for cert in `ls -1 /etc/ssl/certs/*.crt | grep -v /etc/ssl/certs/ca-certificates.crt`; do cat "$cert" >> /etc/ssl/certs/ca-certificates.crt; done
+
+WORKDIR /usr/bin
+ADD ./build/api-service /usr/bin/
 
 EXPOSE 8080
 EXPOSE 8081
 EXPOSE 8082
 
-ENTRYPOINT ["/smartcentrix-api"]
+ENTRYPOINT ["api-service"]

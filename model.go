@@ -92,6 +92,7 @@ func newDatabase() (*gorm.DB, error) {
 	return db, nil
 }
 
+// BaseModel adds basic columns for our models
 type BaseModel struct {
 	ID        string `gorm:"primary_key"`
 	CreatedAt time.Time
@@ -99,6 +100,7 @@ type BaseModel struct {
 	DeletedAt *time.Time `sql:"index"`
 }
 
+// User represents a single user in our database
 type User struct {
 	BaseModel
 
@@ -110,6 +112,7 @@ type User struct {
 	Devices []Device `gorm:"ForeignKey:UserID"`
 }
 
+// Device represents a users mobile device
 type Device struct {
 	BaseModel
 
@@ -119,6 +122,7 @@ type Device struct {
 	UserID string `gorm:"index"`
 }
 
+// Room is a mechanic to group several sensors
 type Room struct {
 	BaseModel
 
@@ -147,6 +151,7 @@ func convertRooms(r []*Room) []*smartcentrix.Room {
 	return rooms
 }
 
+// Sensor is a single smartcentrix sensor
 type Sensor struct {
 	BaseModel
 
@@ -186,6 +191,7 @@ func convertSensors(s []*Sensor) []*smartcentrix.Sensor {
 	return sensors
 }
 
+// Measurement is a single entry in a sensors measurements time series
 type Measurement struct {
 	BaseModel
 

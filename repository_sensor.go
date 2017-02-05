@@ -38,7 +38,13 @@ func (r *sqlSensorRepository) ListSensors(ctx context.Context, userID string) ([
 }
 
 func (r *sqlSensorRepository) SaveSensor(ctx context.Context, sensor *Sensor) (*Sensor, error) {
-	q := r.db.Save(sensor)
+	var q *gorm.DB
+
+	if r.db.NewRecord(sensor) {
+		q = r.db.Create(sensor)
+	} else {
+		q = r.db.Save(sensor)
+	}
 
 	if q.Error != nil {
 		return nil, q.Error

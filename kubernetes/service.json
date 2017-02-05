@@ -1,0 +1,20 @@
+{
+    "kind": "Service",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "smartcentrix-api",
+        "labels": {
+            "app": "smartcentrix-api"
+        }
+    },
+    "spec": {
+        "type": "LoadBalancer",
+        "ports": [{
+            "port": 8080,
+            "name": "transport-http"
+        }],
+        "selector": {
+            "app": "smartcentrix-api"
+        }
+    }
+}

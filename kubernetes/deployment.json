@@ -1,0 +1,72 @@
+{
+	"apiVersion": "extensions/v1beta1",
+	"kind": "Deployment",
+	"metadata": {
+		"name": "smartcentrix-api-v1",
+		"labels": {
+			"app": "smartcentrix-api",
+			"version": "v1"
+		},
+		"annotations": {
+			"kubernetes.io/change-cause": "initial kubernetes deployment"
+		}
+	},
+	"spec": {
+		"replicas": 1,
+		"selector": {
+			"matchLabels": {
+				"app": "smartcentrix-api",
+				"version": "v1"
+			}
+		},
+		"strategy": {
+			"type": "RollingUpdate",
+			"rollingUpdate": {
+				"maxSurge": 1,
+				"maxUnavailable": 0
+			}
+		},
+		"template": {
+			"metadata": {
+				"labels": {
+					"app": "smartcentrix-api",
+					"version": "v1"
+				}
+			},
+			"spec": {
+				"containers": [{
+					"name": "smartcentrix-api",
+					"image": "gcr.io/fabric-157610/smartcentrix/api-service:0.0.1",
+					"ports": [{
+						"name": "transport-http",
+						"containerPort": 8080
+					}, {
+						"name": "transport-grpc",
+						"containerPort": 8081
+					}],
+					"env": [{
+						"name": "MYSQL_HOST",
+						"value": "smartcentrix-db-mysql:3306"
+					}, {
+						"name": "MYSQL_USER",
+						"value": "root"
+					}, {
+						"name": "MYSQL_PASSWORD",
+						"valueFrom": {
+							"secretKeyRef": {
+								"name": "smartcentrix-db-mysql",
+								"key": "mysql-root-password"
+							}
+						}
+					}, {
+						"name": "MYSQL_DATABASE",
+						"value": "smartcentrix"
+					}, {
+						"name": "ENVIRONMENT",
+						"value": "production"
+					}]
+				}]
+			}
+		}
+	}
+}
