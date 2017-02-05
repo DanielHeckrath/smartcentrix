@@ -44,7 +44,7 @@ func (s *sensorAPI) RegisterUser(ctx context.Context, req *smartcentrix.Register
 	user.Password = req.Password // TODO do not save password in plaintext!
 
 	// save user in database
-	user, err = s.userRepo.SaveUser(ctx, user)
+	user, err = s.userRepo.RegisterUser(ctx, user)
 
 	if err != nil {
 		return nil, grpc.Errorf(codes.Internal, "Unable to save new user: %s", err)
