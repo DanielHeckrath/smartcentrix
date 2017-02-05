@@ -72,7 +72,7 @@ func (s *sensorAPI) UpdateSensor(ctx context.Context, req *smartcentrix.UpdateSe
 	}
 
 	if req.RoomId != nil {
-		sensor.Name = req.RoomId.Value
+		sensor.RoomID = &req.RoomId.Value
 	}
 
 	if req.Status != nil {
