@@ -11,6 +11,7 @@ import (
 	"github.com/DanielHeckrath/smartcentrix/proto"
 	"github.com/DanielHeckrath/smartcentrix/signals"
 
+	"github.com/grpc-ecosystem/go-grpc-prometheus"
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/juju/errors"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
@@ -47,7 +48,9 @@ func main() {
 		defer cancel()
 
 		mux := runtime.NewServeMux()
-		opts := []grpc.DialOption{grpc.WithInsecure()}
+		opts := []grpc.DialOption{
+			grpc.WithInsecure(),
+		}
 		err := smartcentrix.RegisterSensorApiServiceHandlerFromEndpoint(ctx, mux, "localhost:8081", opts)
 		if err != nil {
 			errc <- err
@@ -63,7 +66,10 @@ func main() {
 		if err != nil {
 			errc <- err
 		}
-		s := grpc.NewServer()
+		s := grpc.NewServer(
+			grpc.StreamInterceptor(grpc_prometheus.StreamServerInterceptor),
+			grpc.UnaryInterceptor(grpc_prometheus.UnaryServerInterceptor),
+		)
 		smartcentrix.RegisterSensorApiServiceServer(s, &sensorAPI{
 			userRepo:   &sqlUserRepository{db},
 			sensorRepo: &sqlSensorRepository{db},
