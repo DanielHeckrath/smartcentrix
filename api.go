@@ -3,8 +3,6 @@ package main
 import (
 	"strings"
 
-	"github.com/DanielHeckrath/smartcentrix/proto"
-
 	"github.com/juju/errors"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -23,17 +21,10 @@ var (
 
 // sensorAPI implements the smartcentrix.SensorApiServiceServer interface
 type sensorAPI struct {
-	userRepo   UserRepository
-	sensorRepo SensorRepository
-	roomRepo   RoomRepository
-}
-
-func (s *sensorAPI) ListSensorMeasurement(context.Context, *smartcentrix.ListSensorMeasurementRequest) (*smartcentrix.ListSensorMeasurementResponse, error) {
-	return nil, errorNotImplemented
-}
-
-func (s *sensorAPI) UpdateSensorMeasurement(context.Context, *smartcentrix.UpdateSensorMeasurementRequest) (*smartcentrix.UpdateSensorMeasurementResponse, error) {
-	return nil, errorNotImplemented
+	userRepo        UserRepository
+	sensorRepo      SensorRepository
+	roomRepo        RoomRepository
+	measurementRepo MeasurementRepository
 }
 
 // authorizeUser validates a users existence with the jwt token thats supplied in the request context

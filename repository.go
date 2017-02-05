@@ -48,3 +48,11 @@ type SensorRepository interface {
 	// DeleteSensor deletes an existing sensor
 	DeleteSensor(ctx context.Context, sensor *Sensor) error
 }
+
+// MeasurementRepository is a repository for sensor measurements
+type MeasurementRepository interface {
+	// SaveMeasurement updates or creates a measurement
+	SaveMeasurement(ctx context.Context, measurement *Measurement) (*Measurement, error)
+	// ListMeasurements loads all measurements for a sensor
+	ListMeasurements(ctx context.Context, sensorID string) ([]*Measurement, error)
+}
