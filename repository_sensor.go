@@ -11,7 +11,7 @@ type sqlSensorRepository struct {
 
 func (r *sqlSensorRepository) GetSensor(ctx context.Context, sensorID string) (*Sensor, error) {
 	sensor := &Sensor{}
-	q := r.db.Where("id = ?", sensorID).First(sensor)
+	q := r.db.Where("id = ?", sensorID).Preload("Measurements").First(sensor)
 
 	if q.Error != nil {
 		if q.RecordNotFound() {
