@@ -200,3 +200,23 @@ type Measurement struct {
 
 	SensorID string `gorm:"index"`
 }
+
+func (m Measurement) proto() *smartcentrix.Measurement {
+	measurement := smartcentrix.Measurement{
+		Id:        m.ID,
+		Timestamp: m.Timestamp,
+		Value:     m.Value,
+	}
+
+	return &measurement
+}
+
+func convertMeasurements(m []Measurement) []*smartcentrix.Measurement {
+	measurements := make([]*smartcentrix.Measurement, 0, len(m))
+
+	for _, measurement := range m {
+		measurements = append(measurements, measurement.proto())
+	}
+
+	return measurements
+}

@@ -197,7 +197,8 @@ func (s *sensorAPI) ShowSensor(ctx context.Context, req *smartcentrix.ShowSensor
 	}
 
 	res := &smartcentrix.ShowSensorResponse{
-		Sensor: sensor.proto(),
+		Sensor:       sensor.proto(),
+		Measurements: convertMeasurements(sensor.Measurements),
 	}
 
 	return res, nil
