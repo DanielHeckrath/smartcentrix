@@ -36,7 +36,7 @@ func (s *sensorAPI) RegisterSensor(ctx context.Context, req *smartcentrix.Regist
 	}
 
 	// save new sensor in repo
-	sensor, err = s.sensorRepo.SaveSensor(ctx, sensor)
+	sensor, err = s.sensorRepo.CreateSensor(ctx, sensor)
 
 	if err != nil {
 		return nil, grpc.Errorf(codes.Internal, "Some internal operation had an error: Unable to save new sensor: %s", err)
@@ -83,7 +83,7 @@ func (s *sensorAPI) UpdateSensor(ctx context.Context, req *smartcentrix.UpdateSe
 		sensor.InUse = req.InUse.Value
 	}
 
-	sensor, err = s.sensorRepo.SaveSensor(ctx, sensor)
+	sensor, err = s.sensorRepo.UpdateSensor(ctx, sensor)
 
 	if err != nil {
 		return nil, grpc.Errorf(codes.Internal, "Unable to save sensor: %s", err)
@@ -117,7 +117,7 @@ func (s *sensorAPI) ToggleSensor(ctx context.Context, req *smartcentrix.ToggleSe
 
 	sensor.Status = req.Status
 
-	sensor, err = s.sensorRepo.SaveSensor(ctx, sensor)
+	sensor, err = s.sensorRepo.UpdateSensor(ctx, sensor)
 
 	if err != nil {
 		return nil, grpc.Errorf(codes.Internal, "Unable to save sensor: %s", err)

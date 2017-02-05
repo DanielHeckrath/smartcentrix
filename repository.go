@@ -41,8 +41,10 @@ type RoomRepository interface {
 type SensorRepository interface {
 	// GetSensor loads a sensor with it's id
 	GetSensor(ctx context.Context, sensorID string) (*Sensor, error)
-	// SaveSensor updates or creates a sensor
-	SaveSensor(ctx context.Context, sensor *Sensor) (*Sensor, error)
+	// CreateSensor creates a new sensor
+	CreateSensor(ctx context.Context, sensor *Sensor) (*Sensor, error)
+	// UpdateSensor updates an existing sensor
+	UpdateSensor(ctx context.Context, sensor *Sensor) (*Sensor, error)
 	// ListSensors loads all sensors for a user
 	ListSensors(ctx context.Context, userID string) ([]*Sensor, error)
 	// DeleteSensor deletes an existing sensor
