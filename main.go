@@ -66,6 +66,7 @@ func main() {
 		if err != nil {
 			errc <- err
 		}
+		grpc_prometheus.EnableHandlingTimeHistogram()
 		s := grpc.NewServer(
 			grpc.StreamInterceptor(grpc_prometheus.StreamServerInterceptor),
 			grpc.UnaryInterceptor(grpc_prometheus.UnaryServerInterceptor),
