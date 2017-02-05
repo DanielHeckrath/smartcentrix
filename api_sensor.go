@@ -43,7 +43,9 @@ func (s *sensorAPI) RegisterSensor(ctx context.Context, req *smartcentrix.Regist
 	}
 
 	// create new response
-	return &smartcentrix.RegisterSensorResponse{}, nil
+	return &smartcentrix.RegisterSensorResponse{
+		Sensor: sensor.proto(),
+	}, nil
 }
 
 func (s *sensorAPI) UpdateSensor(ctx context.Context, req *smartcentrix.UpdateSensorRequest) (*smartcentrix.UpdateSensorResponse, error) {
