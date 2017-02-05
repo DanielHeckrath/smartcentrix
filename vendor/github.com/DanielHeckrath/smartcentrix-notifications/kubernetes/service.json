@@ -1,0 +1,19 @@
+{
+    "kind": "Service",
+    "apiVersion": "v1",
+    "metadata": {
+        "name": "notifications",
+        "labels": {
+            "app": "notifications"
+        }
+    },
+    "spec": {
+        "ports": [{
+            "port": 8081,
+            "name": "transport-grpc"
+        }],
+        "selector": {
+            "app": "notifications"
+        }
+    }
+}

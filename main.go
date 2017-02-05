@@ -1,9 +1,11 @@
 package main
 
 import (
+	_ "expvar"
 	"log"
 	"net"
 	"net/http"
+	_ "net/http/pprof"
 	"os"
 
 	"github.com/DanielHeckrath/smartcentrix/proto"
@@ -11,6 +13,7 @@ import (
 
 	"github.com/grpc-ecosystem/grpc-gateway/runtime"
 	"github.com/juju/errors"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 )
@@ -30,6 +33,13 @@ func main() {
 
 	errc := make(chan error)
 
+	// Transport: debug/metrics
+	go func() {
+		http.Handle("/metrics", promhttp.Handler())
+		log.Println("Serving debug metrics (expvar, pprof, metrics) on HTTP :8082")
+		errc <- http.ListenAndServe(":8082", nil)
+	}()
+
 	// Transport: http
 	go func() {
 		ctx := context.Background()
@@ -43,6 +53,7 @@ func main() {
 			errc <- err
 		}
 
+		log.Println("Serving transport HTTP on :8080")
 		errc <- http.ListenAndServe(":8080", mux)
 	}()
 
@@ -58,6 +69,8 @@ func main() {
 			sensorRepo: &sqlSensorRepository{db},
 			roomRepo:   &sqlRoomRepository{db},
 		})
+
+		log.Println("Serving transport gRPC on :8081")
 		errc <- s.Serve(ln)
 	}()
 

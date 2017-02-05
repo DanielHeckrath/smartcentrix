@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package notification;
+
+import "google/protobuf/wrappers.proto";
+
+message Notification {
+	google.protobuf.StringValue title = 1;
+	google.protobuf.StringValue body = 2;
+	string icon = 3;
+	google.protobuf.StringValue sound = 4;
+	google.protobuf.StringValue badge = 5;
+}
+
+// NotificationService is a service that handles device registration and push notifications
+service NotificationService {
+	// LoginUser tries to validate a username and password combination
+	//
+	// The method returns the existing user and an access token for future requests
+	rpc SendNotification(SendNotificationRequest) returns (SendNotificationResponse);
+}
+
+message SendNotificationRequest {
+	Notification notification = 1;
+	repeated string push_tokens = 2;
+}
+
+message SendNotificationResponse {
+	// VOID
+}
+

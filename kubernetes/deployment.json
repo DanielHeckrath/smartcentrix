@@ -43,6 +43,9 @@
 					}, {
 						"name": "transport-grpc",
 						"containerPort": 8081
+					}, {
+						"name": "transport-debug",
+						"containerPort": 8082
 					}],
 					"env": [{
 						"name": "MYSQL_HOST",

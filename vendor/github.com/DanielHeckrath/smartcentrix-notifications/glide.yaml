@@ -1,0 +1,14 @@
+package: github.com/DanielHeckrath/smartcentrix-notifications
+import:
+- package: github.com/golang/protobuf
+  subpackages:
+  - proto
+  - ptypes/wrappers
+- package: github.com/juju/errors
+- package: golang.org/x/net
+  subpackages:
+  - context
+- package: google.golang.org/grpc
+  version: ~1.0.5
+  subpackages:
+  - codes

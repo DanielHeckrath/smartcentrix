@@ -1,8 +1,18 @@
-hash: 0adc1d69a2f8b3b21c92e3414959f9ddbf88cad0e03755205d1ad6078abf3444
-updated: 2017-02-05T17:30:28.062560174+01:00
+hash: ef0d722047c4be72a2eadc9b200b80d4d233bc7b07e22cdc8a0e8c0267fdfbd6
+updated: 2017-02-05T20:21:28.460263891+01:00
 imports:
 - name: github.com/101loops/clock
   version: e4ec0ab5053ee441dab6c55d0c3633f275269f72
+- name: github.com/beorn7/perks
+  version: 4c0e84591b9aa9e6dcfdf3e020114cd81f89d5f9
+  subpackages:
+  - quantile
+- name: github.com/DanielHeckrath/singleton
+  version: bcae98d5bb0e9c24c670bc7fe6131e0749d162d5
+- name: github.com/DanielHeckrath/smartcentrix-notifications
+  version: 553f8ef31196359bbc32777c293f032bf54bebeb
+  subpackages:
+  - notification
 - name: github.com/dgrijalva/jwt-go
   version: d2709f9f1f31ebcda9651b03077758c1f3a0018c
 - name: github.com/go-sql-driver/mysql
@@ -14,6 +24,8 @@ imports:
   - proto
   - protoc-gen-go/descriptor
   - ptypes/wrappers
+- name: github.com/grpc-ecosystem/go-grpc-prometheus
+  version: 6b7015e65d366bf3f19b2b2a000a831940f0f7e0
 - name: github.com/grpc-ecosystem/grpc-gateway
   version: a8f25bd1ab549f8b87afd48aa9181221e9d439bb
   subpackages:
@@ -25,11 +37,31 @@ imports:
   version: 5174cc5c242a728b435ea2be8a2f7f998e15429b
   subpackages:
   - dialects/mysql
-  - dialects/postgres
 - name: github.com/jinzhu/inflection
   version: 1c35d901db3da928c72a72d8458480cc9ade058f
 - name: github.com/juju/errors
   version: 6f54ff6318409d31ff16261533ce2c8381a4fd5d
+- name: github.com/matttproud/golang_protobuf_extensions
+  version: c12348ce28de40eed0136aa2b644d0ee0650e56c
+  subpackages:
+  - pbutil
+- name: github.com/prometheus/client_golang
+  version: c317fb74746eac4fc65fe3909195f4cf67c5562a
+  subpackages:
+  - prometheus
+  - prometheus/promhttp
+- name: github.com/prometheus/client_model
+  version: fa8ad6fec33561be4280a8f0514318c79d7f6cb6
+  subpackages:
+  - go
+- name: github.com/prometheus/common
+  version: dd2f054febf4a6c00f2343686efb775948a8bff4
+  subpackages:
+  - expfmt
+  - internal/bitbucket.org/ww/goautoneg
+  - model
+- name: github.com/prometheus/procfs
+  version: 1878d9fbb537119d24b21ca07effd591627cd160
 - name: github.com/satori/go.uuid
   version: 879c5887cd475cd7864858769793b2ceb0d44feb
 - name: golang.org/x/net

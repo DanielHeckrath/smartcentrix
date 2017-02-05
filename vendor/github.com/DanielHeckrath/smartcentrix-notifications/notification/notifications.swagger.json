@@ -1,0 +1,67 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "notification/notifications.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {},
+  "definitions": {
+    "notificationNotification": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/definitions/protobufStringValue"
+        },
+        "body": {
+          "$ref": "#/definitions/protobufStringValue"
+        },
+        "icon": {
+          "type": "string"
+        },
+        "sound": {
+          "$ref": "#/definitions/protobufStringValue"
+        },
+        "badge": {
+          "$ref": "#/definitions/protobufStringValue"
+        }
+      }
+    },
+    "notificationSendNotificationRequest": {
+      "type": "object",
+      "properties": {
+        "notification": {
+          "$ref": "#/definitions/notificationNotification"
+        },
+        "push_tokens": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "notificationSendNotificationResponse": {
+      "type": "object"
+    },
+    "protobufStringValue": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string",
+          "description": "The string value."
+        }
+      },
+      "description": "Wrapper message for `string`.\n\nThe JSON representation for `StringValue` is JSON string."
+    }
+  }
+}

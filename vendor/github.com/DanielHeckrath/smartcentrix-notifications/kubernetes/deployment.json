@@ -1,0 +1,52 @@
+{
+	"apiVersion": "extensions/v1beta1",
+	"kind": "Deployment",
+	"metadata": {
+		"name": "notifications-v1",
+		"labels": {
+			"app": "notifications",
+			"version": "v1"
+		},
+		"annotations": {
+			"kubernetes.io/change-cause": "initial kubernetes deployment"
+		}
+	},
+	"spec": {
+		"replicas": 1,
+		"selector": {
+			"matchLabels": {
+				"app": "notifications",
+				"version": "v1"
+			}
+		},
+		"strategy": {
+			"type": "RollingUpdate",
+			"rollingUpdate": {
+				"maxSurge": 1,
+				"maxUnavailable": 0
+			}
+		},
+		"template": {
+			"metadata": {
+				"labels": {
+					"app": "notifications",
+					"version": "v1"
+				}
+			},
+			"spec": {
+				"containers": [{
+					"name": "notifications",
+					"image": "gcr.io/fabric-157610/smartcentrix/notification-service:0.0.2",
+					"ports": [{
+						"name": "transport-grpc",
+						"containerPort": 8081
+					}],
+					"env": [{
+						"name": "ENVIRONMENT",
+						"value": "production"
+					}]
+				}]
+			}
+		}
+	}
+}
