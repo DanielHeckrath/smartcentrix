@@ -26,6 +26,7 @@ func main() {
 		return
 	}
 	defer db.Close()
+	db.LogMode(true)
 
 	errc := make(chan error)
 
@@ -52,7 +53,10 @@ func main() {
 			errc <- err
 		}
 		s := grpc.NewServer()
-		smartcentrix.RegisterSensorApiServiceServer(s, &sensorAPI{})
+		smartcentrix.RegisterSensorApiServiceServer(s, &sensorAPI{
+			userRepo:   &sqlUserRepository{db},
+			sensorRepo: &sqlSensorRepository{db},
+		})
 		errc <- s.Serve(ln)
 	}()
 
