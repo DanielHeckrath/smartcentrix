@@ -17,7 +17,11 @@ var notificationClientSingleton singleton.Singleton
 
 func getNotificationServiceClient() (notification.NotificationServiceClient, error) {
 	entity, err := notificationClientSingleton.Get(func() (interface{}, error) {
-		return nil, nil
+		conn, err := dial("notifications:8081")
+		if err != nil {
+			return nil, errors.Annotate(err, "Unable to create grpc connection")
+		}
+		return notification.NewNotificationServiceClient(conn), nil
 	})
 
 	if err != nil {
